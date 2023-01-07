@@ -27,10 +27,10 @@ def receberDados(socket): #recebe os dados do cliente
 
        # s.close()
 
-def buscaNome(data):
+def buscaIP(data):
     ip = leArquivo(data)#dns_table.get(data, "não encontrado!").encode()
     if(ip == 404):
-        
+        ip = requisitarServidorRaiz(data)
 
     return ip
 
@@ -42,5 +42,20 @@ def leArquivo():
         dns_table[linha[0]] = linha[1]
     arq.close()
 
+def requisitarServidorRaiz(data):
+    s = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
+    s.sendto(data.encode(), ('192.168.98.121', 1234))
+    data, address = s.recvfrom(1024)
+
+    return
+
 def enviarDados(socket, ip, address):
     socket.sendto(ip, address)
+
+
+def sevidorDNS():
+    s = criarConexao()
+    while True:
+        data, address = receberDados(s)
+        ip = buscaIP(data)
+        enviarDados(s, ip, address)

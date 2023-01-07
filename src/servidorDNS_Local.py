@@ -1,12 +1,5 @@
 import socket
 
-dns_table = {"www.google.com":"192.165.1.1",
-"www.youtube.com":"192.165.1.2",
-"www.python.org":"192.165.1.3",
-"www.aurcc.ac.in":"192.165.1.4",
-"www.amazon.in":"192.165.1.5",
-"www.gmail.com":"192.165.1.6"}
-
 def criarConexao(ip, port): #cria conexão com o cliente
     s = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
     print("Iniciando Servidorr...")
@@ -35,17 +28,19 @@ def buscaIP(data):
     return ip
 
 def leArquivo(dado):
-    arq = open("dns.txt", "r")
-    linhas = arq.readlines()
-    for linha in linhas:
-        linha = linha.split()
-        dns_table[linha[0]] = linha[1]
-    arq.close()
+    with open("names.txt") as names:
+        for line in names:
+            if dado in line:
+                #se estiver, retorna o ip
+                return line.split(" | ")[1]
+        #se não estiver, retorna 404       
+        return 404 
 
 def requisitarServidorRaiz(data):
     s = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
     s.sendto(data.encode(), ('192.168.98.76', 1234))
-    ip, address = s.recvfrom(1024)
+    data = s.recvfrom(1024)
+    ip = data.decode().strip()
 
     return ip
 

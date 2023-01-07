@@ -9,13 +9,11 @@ def criarConexao(ip, port): #cria conexão com o cliente
 
 
 def receberDados(socket): #recebe os dados do cliente
-        data, address = socket.recvfrom(1024)
-       
-        print(f"{address} buscando dados.")
+    data, address = socket.recvfrom(1024)
+    print(f"{address} buscando dados.")
+    data = data.decode()
 
-        data = data.decode()
-
-        return data, address
+    return data, address
 
 
        # s.close()
@@ -45,12 +43,14 @@ def requisitarServidorRaiz(data):
     return ip
 
 def enviarDados(socket, ip, address):
-    socket.sendto(ip, address)
+    socket.sendto(ip.encode(), address)
 
 
 def sevidorDNS():
-    s = criarConexao("192.168.15.15", 1234)
+    s = criarConexao("192.168.15.15", 1237)
     while True:
         data, address = receberDados(s)
         ip = buscaIP(data)
         enviarDados(s, ip, address)
+
+sevidorDNS()

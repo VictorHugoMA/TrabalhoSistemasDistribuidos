@@ -15,16 +15,32 @@ def criarConexao(): #cria conexão com o cliente
     return s
 
 
-def receberDados(): #recebe os dados do cliente
-    while True:
-
-        data, address = s.recvfrom(1024)
+def receberDados(socket): #recebe os dados do cliente
+        data, address = socket.recvfrom(1024)
        
         print(f"{address} buscando dados.")
 
         data = data.decode()
 
-        ip = dns_table.get(data, "não encontrado!").encode() 
-        send = s.sendto(ip, address)
+        return data, address
 
-    s.close()
+
+       # s.close()
+
+def buscaNome(data):
+    ip = leArquivo(data)#dns_table.get(data, "não encontrado!").encode()
+    if(ip == 404):
+        
+
+    return ip
+
+def leArquivo():
+    arq = open("dns.txt", "r")
+    linhas = arq.readlines()
+    for linha in linhas:
+        linha = linha.split()
+        dns_table[linha[0]] = linha[1]
+    arq.close()
+
+def enviarDados(socket, ip, address):
+    socket.sendto(ip, address)

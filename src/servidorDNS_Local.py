@@ -7,10 +7,10 @@ dns_table = {"www.google.com":"192.165.1.1",
 "www.amazon.in":"192.165.1.5",
 "www.gmail.com":"192.165.1.6"}
 
-def criarConexao(): #cria conexão com o cliente
+def criarConexao(ip, port): #cria conexão com o cliente
     s = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
     print("Iniciando Servidorr...")
-    s.bind(("192.168.15.76", 1234))
+    s.bind((ip, port))
 
     return s
 
@@ -34,7 +34,7 @@ def buscaIP(data):
 
     return ip
 
-def leArquivo():
+def leArquivo(dado):
     arq = open("dns.txt", "r")
     linhas = arq.readlines()
     for linha in linhas:
@@ -44,17 +44,17 @@ def leArquivo():
 
 def requisitarServidorRaiz(data):
     s = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
-    s.sendto(data.encode(), ('192.168.98.121', 1234))
-    data, address = s.recvfrom(1024)
+    s.sendto(data.encode(), ('192.168.98.76', 1234))
+    ip, address = s.recvfrom(1024)
 
-    return
+    return ip
 
 def enviarDados(socket, ip, address):
     socket.sendto(ip, address)
 
 
 def sevidorDNS():
-    s = criarConexao()
+    s = criarConexao("192.168.15.15", 1234)
     while True:
         data, address = receberDados(s)
         ip = buscaIP(data)

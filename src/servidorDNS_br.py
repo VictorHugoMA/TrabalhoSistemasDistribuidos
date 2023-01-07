@@ -2,7 +2,7 @@ import socket
 
 def criarConexao(ip,porta): #cria conexão com o cliente
     s = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
-    print("Iniciando Servidorr...")
+    print("Iniciando Servidor DNS .com.brr...")
     s.bind((ip, porta))
 
     return s
@@ -18,8 +18,6 @@ def receberDados(socket): #recebe os dados do cliente
 
 def buscaIP(data):
     ip = leArquivo(data)#dns_table.get(data, "não encontrado!").encode()
-    if(ip == 404):
-        return 404
 
     return ip
 
@@ -30,14 +28,18 @@ def leArquivo(dado):
                 #se estiver, retorna o ip
                 return line.split(" | ")[1]
             #se não estiver, retorna 404       
-        return 404
+        return '404'
 
 def enviarDados(socket, ip, address):
-    socket.sendto(ip, address)
+    print("Enviando dados... \n" + " ip: ", ip, "address: ", address)
+    socket.sendto(ip.encode(), address)
+    print("Dados enviados!")
 
 def sevidorDNS():
-    s = criarConexao("192.168.15.15", 1235)
+    s = criarConexao("192.168.15.78", 1253)
     while True:
         data, address = receberDados(s)
         ip = buscaIP(data)
         enviarDados(s, ip, address)
+
+sevidorDNS()

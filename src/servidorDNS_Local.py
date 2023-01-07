@@ -46,11 +46,11 @@ def enviarDados(socket, ip, address):
     socket.sendto(ip.encode(), address)
 
 
-def sevidorDNS():
+def servidorDNS():
     s = criarConexao("192.168.15.15", 1237)
     while True:
         data, address = receberDados(s)
         ip = buscaIP(data)
         enviarDados(s, ip, address)
 
-sevidorDNS()
+servidorDNS()

@@ -69,7 +69,7 @@ def enviarDados(socket, ip, address):
 
 
 def servidorDNS():
-    s = criarConexao("192.168.15.76", 1234)
+    s = criarConexao("10.14.107.19", 1234)
     while True:
         data, address = receberDados(s)
         ip = buscaIP(data)

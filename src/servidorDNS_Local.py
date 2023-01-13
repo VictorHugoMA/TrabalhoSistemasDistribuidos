@@ -1,4 +1,5 @@
 import socket
+import time
 
 def criarConexao(ip, port): #cria conexão com o cliente
     s = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
@@ -26,22 +27,27 @@ def buscaIP(data):
     return ip
 
 def leArquivo(dado):
-    with open("cache.txt") as names:
-        for line in names:
-            if dado in line:
-                #se estiver, retorna o ip
-                return line.split(" | ")[1]
-        #se não estiver, retorna 404       
+    try:
+        with open("cache.txt") as names:
+            for line in names:
+                if dado in line:
+                    #se estiver, retorna o ip
+                    return line.split(" | ")[1]
+            #se não estiver, retorna 404       
+            return '404'
+    except:
         return '404'
+
 
 def requisitarServidorRaiz(data):
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    addr = ('192.168.15.76', 1234) 
+    addr = ('10.14.107.19', 1234) 
     print('Enviando requisição para o servidor raiz...')
     s.sendto(data.encode(), addr)
     data = s.recvfrom(1024)
-    ip = data[0].decode().strip()
 
+    ip = data[0].decode().strip()
+    
     return ip
 
 def enviarDados(socket, ip, address):
@@ -49,7 +55,7 @@ def enviarDados(socket, ip, address):
 
 
 def servidorDNS():
-    s = criarConexao("192.168.15.15", 1237)
+    s = criarConexao("10.14.107.19", 1237)
     while True:
         data, address = receberDados(s)
         ip = buscaIP(data)

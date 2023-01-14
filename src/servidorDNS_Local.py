@@ -16,11 +16,8 @@ def receberDados(socket): #recebe os dados do cliente
 
     return data, address
 
-
-       # s.close()
-
 def buscaIP(data):
-    ip = leArquivo(data)#dns_table.get(data, "não encontrado!").encode()
+    ip = leArquivo(data)
     if(ip == '404'):
         ip = requisitarServidorRaiz(data)
 

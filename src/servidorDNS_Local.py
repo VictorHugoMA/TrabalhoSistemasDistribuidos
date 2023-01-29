@@ -20,6 +20,7 @@ def receberDados(socket): #recebe os dados do cliente
        # s.close()
 
 def buscaIP(data):
+    print("Iniciando busca de IP...")
     ip = leArquivo(data)#dns_table.get(data, "não encontrado!").encode()
     if(ip == '404'):
         ip = requisitarServidorRaiz(data)
@@ -27,6 +28,7 @@ def buscaIP(data):
     return ip
 
 def leArquivo(dado):
+    print("Lendo arquivo...")
     try:
         with open("cache.txt") as names:
             for line in names:
@@ -41,7 +43,7 @@ def leArquivo(dado):
 
 def requisitarServidorRaiz(data):
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    addr = ('10.14.107.19', 1234) 
+    addr = ('10.14.96.48', 1234) 
     print('Enviando requisição para o servidor raiz...')
     s.sendto(data.encode(), addr)
     data = s.recvfrom(1024)
@@ -51,6 +53,7 @@ def requisitarServidorRaiz(data):
     return ip
 
 def enviarDados(socket, ip, address):
+    print("Retornando dados...")
     socket.sendto(ip.encode(), address)
 
 

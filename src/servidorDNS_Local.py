@@ -16,9 +16,6 @@ def receberDados(socket): #recebe os dados do cliente
 
     return data, address
 
-
-       # s.close()
-
 def buscaIP(data):
     print("Iniciando busca de IP...")
     ip = leArquivo(data)#dns_table.get(data, "não encontrado!").encode()

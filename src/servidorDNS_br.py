@@ -17,17 +17,20 @@ def receberDados(socket): #recebe os dados do cliente
         return data, address
 
 def buscaIP(data):
-    ip = leArquivo(data)#dns_table.get(data, "não encontrado!").encode()
+    ip = leArquivo(data)
 
     return ip
 
 def leArquivo(dado):
-    with open("namesbr.txt") as names:
-        for line in names:
-            if dado in line:
-                #se estiver, retorna o ip
-                return line.split(" | ")[1]
+    try:
+        with open("namesbr.txt") as names:
+            for line in names:
+                if dado in line:
+                    #se estiver, retorna o ip
+                    return line.split(" | ")[1]
             #se não estiver, retorna 404       
+            return '404'
+    except:
         return '404'
 
 def enviarDados(socket, ip, address):

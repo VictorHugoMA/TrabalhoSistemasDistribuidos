@@ -21,7 +21,7 @@ def receberDados(socket): #recebe os dados do cliente
        # s.close()
 
 def buscaIP(data):
-    ip = leArquivo(data)#dns_table.get(data, "não encontrado!").encode()
+    ip = leArquivo(data)
     if(ip == "404"):
         #pega a partir do segundo ponto do data
         dom = data.split(".")[3:]
@@ -37,13 +37,16 @@ def buscaIP(data):
     return ip
 
 def leArquivo(dado):
-    with open("names.txt") as names:
-        for line in names:
-            if dado in line:
-                #se estiver, retorna o ip
-                return line.split(" | ")[1]
-        #se não estiver, retorna 404       
-        return "404" 
+    try:
+        with open("names.txt") as names:
+            for line in names:
+                if dado in line:
+                    #se estiver, retorna o ip
+                    return line.split(" | ")[1]
+            #se não estiver, retorna 404       
+            return '404'
+    except:
+        return '404'
 
 def requisitarServidorBR(data):
     s = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)

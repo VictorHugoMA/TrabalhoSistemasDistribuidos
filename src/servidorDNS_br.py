@@ -17,11 +17,13 @@ def receberDados(socket): #recebe os dados do cliente
         return data, address
 
 def buscaIP(data):
+    print("Iniciando busca de IP...")
     ip = leArquivo(data)
 
     return ip
 
 def leArquivo(dado):
+    print("Lendo arquivo...")
     try:
         with open("namesbr.txt") as names:
             for line in names:
@@ -39,7 +41,7 @@ def enviarDados(socket, ip, address):
     print("Dados enviados!")
 
 def sevidorDNS():
-    s = criarConexao("192.168.15.78", 1253)
+    s = criarConexao("10.14.26.221", 1253)
     while True:
         data, address = receberDados(s)
         ip = buscaIP(data)
